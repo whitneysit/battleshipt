@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef SHIP_H
+#define SHIP_H
 
 #include "Board.h"
 #include "Game.h"
