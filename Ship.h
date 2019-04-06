@@ -1,8 +1,6 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include "Board.h"
-#include "Game.h"
 #include <iostream>
 #include <vector>
 #include <string>

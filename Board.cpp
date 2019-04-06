@@ -10,7 +10,7 @@ Board::Board(){
 	for (int i = 0; i < 10; i++){
 		vector<bool> tempVector; 
 		vector<Ship*> shipVector; 
-		for (int j = 0; j < 10 j++){
+		for (int j = 0; j < 10; j++){
 			tempVector.push_back(false);
 			shipVector.push_back(nullptr);
 		}
@@ -21,7 +21,7 @@ Board::Board(){
 
 void Board::printBoard(){
 	for (int i = 0; i < 10; i++){
-		for (int j = 0; j < 10 j++){
+		for (int j = 0; j < 10; j++){
 			cout << attackBoard[i][j];
 			//cout << shipVector[i][j];
 		}

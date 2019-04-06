@@ -1,7 +1,6 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-#include "Game.h"
 #include "Ship.h"
 #include <iostream>
 #include <vector>

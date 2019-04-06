@@ -1,8 +1,9 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "Board.h"
+
 #include "Ship.h"
+#include "Board.h"
 #include <iostream>
 #include <vector>
 #include <string>
@@ -14,7 +15,7 @@ class Game {
 	public:
 		Game();
 		~Game();
-		void startgame();
+		void startGame();
 		void printBoards();
 		string askPlayerForMove();
 
