@@ -5,15 +5,20 @@
 #include <vector>
 #include <string>
 
+using namespace std; 
 
 class Ship {
 	public:
-		Ship(int size);
+		Ship(string name, int size);
 		~Ship();
+		bool isCovered(){ return size == numOfHits; }
+		string getName(){ return name;} 
+		int getSize(){return size;}
+		int	numOfHits;
 
 	private:
+		string name; 
 		int size;
-		int	numOfHits;
 };
 
 

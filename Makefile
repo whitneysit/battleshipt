@@ -1,17 +1,20 @@
-CFLAGS = -O -g
+CFLAGS = -O -g -Wall
 CC = g++ -std=c++11
 
-main: board.o game.o ship.o main.cpp
-	$(CC) $(CFLAGS) -o main game.o main.cpp board.o ship.o
+main: main.o Ship.o Board.o Game.o 
+	$(CC) $(CFLAGS) Ship.o Board.o Game.o main.o -o main
 
-game.o: Game.cpp Game.h Board.h
-	$(CC) $(CFLAGS) -c Game.cpp
+main.o: main.cpp Position.h Ship.h Board.h Game.h 
+	$(CC) $(CFLAGS) -c main.cpp
 
-board.o: Board.cpp  Board.h Ship.h
-	$(CC) $(CFLAGS) -c Board.cpp
-
-ship.o: Ship.cpp Ship.h
+Ship.o: Ship.h
 	$(CC) $(CFLAGS) -c Ship.cpp 
+
+Board.o:  Board.h 
+	$(CC) $(CFLAGS) -c Board.cpp 
+
+Game.o: Game.h
+	$(CC) $(CFLAGS) -c Game.cpp
 
 clean:
 	rm -f core *.o main
