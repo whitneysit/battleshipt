@@ -19,8 +19,8 @@ class Game {
 		void printBoards();
 		string askPlayerForMove();
 		string getInput(string output);
-		void placeShipsPrompt();
-		bool isValidPos(string pos);
+
+		bool isValidPosition(string pos);
 
 	private:
 		 // returns 1 if hit, 0 for miss, and -1 if already attacked
@@ -28,6 +28,8 @@ class Game {
 		list<Ship*> playerTwoShips;
 		Board* playerOneBoard;
 		Board* playerTwoBoard;
+		void placeShipsPrompt();
+		void startAttacks();
 
 		
 };

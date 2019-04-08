@@ -16,7 +16,7 @@ class Board {
 		void printBoard(); 
 		bool isTaken(Position& pos); //return true is pos is already been attacked
 		bool isHit(Position& pos); //return true if pos is already been hit
-		void placeShip(Ship* ship, Position pos, bool isHorizontal);
+		bool placeShip(Ship* ship, Position pos, bool isHorizontal); // return true if success else false
 		int attack(Position& pos); // return -1 if already attacked, 0 if missed, 1 if hit
 		Ship* getShip(int index){return allShips[index];}
 

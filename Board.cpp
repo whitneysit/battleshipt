@@ -38,13 +38,31 @@ Board::~Board(){
 }
 
 void Board::printBoard(){
+	cout << "  1 2 3 4 5 6 7 8 9 10" << endl;
 	for (int i = 0; i < 10; i++){
+		cout << string(1,'a' + i) << " ";
 		for (int j = 0; j < 10; j++){
-			cout << attackBoard[i][j];
-			//cout << shipVector[i][j];
+			if (attackBoard[i][j]){
+				if (shipBoard[i][j] != nullptr){
+					cout << "* ";
+				}
+				else {
+					cout << "x ";
+				}	
+			}
+			else {
+				if (shipBoard[i][j] != nullptr){
+					cout <<  "+ ";
+				}
+				else {
+					cout << "o ";
+				}	
+			}
 		}
 		cout << endl;
 	}
+	cout << endl;
+	return;
 }
 
 
@@ -54,18 +72,41 @@ bool Board::isTaken(Position& pos){
 bool Board::isHit(Position& pos){
 	return (isTaken(pos) && shipBoard[pos.x][pos.y]); 
 }
-void Board::placeShip(Ship* ship, Position pos, bool isHorizontal){
+bool Board::placeShip(Ship* ship, Position pos, bool isHorizontal){
 	int shipSize = ship->getSize();
 	if (isHorizontal){
 		for (int i = 0; i < shipSize; i++){
-			shipBoard[pos.x + i][pos.y] = ship;
+			if(shipBoard[pos.x][pos.y + i] != nullptr){
+				return false; 
+			}
 		}
 	}
 	else {
 		for (int i = 0; i < shipSize; i++){
-			shipBoard[pos.x][pos.y+1] = ship;
+			if(shipBoard[pos.x + i][pos.y] != nullptr){
+				return false; 
+			}
 		}
 	}
+	if (isHorizontal){
+		if ((pos.y + shipSize) > 10){
+			return false; 
+		}
+		for (int i = 0; i < shipSize; i++){
+			shipBoard[pos.x][pos.y + i] = ship;
+		}
+		return true; 
+	}
+	else {
+		if ((pos.x + shipSize) > 10){
+			return false; 
+		}
+		for (int i = 0; i < shipSize; i++){
+			shipBoard[pos.x + i][pos.y] = ship;
+		}
+		return true; 
+	}
+	return false; 
 } 
 
 int Board::attack(Position& pos){
