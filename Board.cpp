@@ -161,8 +161,11 @@ int Board::attack(Position& pos){
 		attackBoard[pos.x][pos.y] = true; 
 		shipBoard[pos.x][pos.y]->numOfHits++;
 		this->numOfHits++;
-		if (this->numOfHits == this->numOfTotalHits){
-			return 2; 
+		if (shipBoard[pos.x][pos.y]->numOfHits == shipBoard[pos.x][pos.y]->getSize()){
+			if (this->numOfHits == this->numOfTotalHits){
+				return 2; 
+			}
+			return 3; 
 		}
 		return 1;
 	}

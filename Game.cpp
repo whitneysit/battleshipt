@@ -34,15 +34,15 @@ void Game::printBoards(){
 
 void Game::printBoards(int player){
 	if (player == 1){
-		cout << "Player 1:" << endl;
-		playerOneBoard->printBoard(); 
 		cout << "Player 2:" << endl;
 		playerTwoBoard->printHiddenBoard(); 
+		cout << "Your Board (Player 1):" << endl;
+		playerOneBoard->printBoard(); 
 	}
 	else{
 		cout << "Player 1:" << endl;
 		playerOneBoard->printHiddenBoard(); 
-		cout << "Player 2:" << endl;
+		cout << "Your Board (Player 2):" << endl;
 		playerTwoBoard->printBoard(); 
 	}
 	return; 
@@ -59,7 +59,7 @@ string Game::getInput(string output){
 }
 
 void Game::placeShipsPrompt(){
-	cout << "It's time to place your ships, Player 1!" << endl;
+	cout << "It's time to place your ships, Player 1!\n" << endl;
 	for (int i = 0; i < 5; i++){
 		string shipName = this->playerOneBoard->getShip(i)->getName();
 		int shipSize = this->playerOneBoard->getShip(i)->getSize();
@@ -93,9 +93,8 @@ void Game::placeShipsPrompt(){
 		}
 	}
 
-	cout << "It's time to place your ships, Player 2!" << endl;
+	cout << "It's time to place your ships, Player 2!\n" << endl;
 	for (int i = 0; i < 5; i++){
-		cout << "iteration: " << i << endl;
 		string shipName = this->playerTwoBoard->getShip(i)->getName();
 		int shipSize = this->playerTwoBoard->getShip(i)->getSize();
 		string prompt = "Player 2, where would you like to place your " + 
@@ -191,8 +190,13 @@ void Game::startAttacks(){
 					cout << "You already attacked this position. Your turn will repreat.\n" << endl;
 					break;
 				case 2:
+					this->printBoards();
 					cout << "Hit! You Win! Game Over\n" << endl;
 					return;
+					break;
+				case 3:
+					cout << "Sunk! You sunk a ship!\n" << endl;
+					counter++;
 					break;
 				default:
 					break;
@@ -221,8 +225,13 @@ void Game::startAttacks(){
 					cout << "You already attacked this position. Your turn will repreat.\n" << endl;
 					break;
 				case 2:
+					this->printBoards();
 					cout << "Hit! You Win! Game Over\n" << endl;
-					return; 
+					return;
+					break;
+				case 3:
+					cout << "Sunk! You sunk a ship!\n" << endl;
+					counter++;
 					break;
 				default:
 					break;

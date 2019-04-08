@@ -28,15 +28,10 @@ class Position {
 			}
 			if (pos.size() == 3){
 				string number = string(1, pos[1]) + string(1, pos[2]);
-				cout << "number: " << number << endl;
-
 				this->y = stoi(number) - 1;
 			}
 			else {
 				string number = string(1, pos[1]);
-				cout << "number: " << number << endl;
-
-
 				this->y = stoi(number) - 1;
 			}
 		}
