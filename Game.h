@@ -17,6 +17,7 @@ class Game {
 		~Game();
 		void startGame();
 		void printBoards();
+		void printBoards(int player);
 		string askPlayerForMove();
 		string getInput(string output);
 

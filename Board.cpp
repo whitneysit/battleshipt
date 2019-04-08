@@ -19,11 +19,17 @@ Board::Board(){
 		this->attackBoard.push_back(tempVector);
 		this->shipBoard.push_back(shipVector);
 	}
+	this->numOfTotalHits = 0; 
 	Ship* carrier = new Ship("Carrier", 5); 
+	this->numOfTotalHits += 5; 
 	Ship* battleship = new Ship("Battleship", 4);
+	this->numOfTotalHits += 4; 
 	Ship* cruiser = new Ship("Cruiser", 3); 
+	this->numOfTotalHits += 3; 
 	Ship* submarine = new Ship("Submarine", 3);
+	this->numOfTotalHits += 3; 
 	Ship* destroyer = new Ship("Destroyer", 2);
+	this->numOfTotalHits += 2; 
  	this->allShips.push_back(carrier);
  	this->allShips.push_back(battleship);
  	this->allShips.push_back(cruiser);
@@ -44,7 +50,12 @@ void Board::printBoard(){
 		for (int j = 0; j < 10; j++){
 			if (attackBoard[i][j]){
 				if (shipBoard[i][j] != nullptr){
-					cout << "* ";
+					if (shipBoard[i][j]->isCovered()){
+						cout << "* ";
+					}
+					else{
+						cout << "+ ";
+					}
 				}
 				else {
 					cout << "x ";
@@ -52,7 +63,40 @@ void Board::printBoard(){
 			}
 			else {
 				if (shipBoard[i][j] != nullptr){
-					cout <<  "+ ";
+					cout <<  "- ";
+				}
+				else {
+					cout << "o ";
+				}	
+			}
+		}
+		cout << endl;
+	}
+	cout << endl;
+	return;
+}
+
+void Board::printHiddenBoard(){
+	cout << "  1 2 3 4 5 6 7 8 9 10" << endl;
+	for (int i = 0; i < 10; i++){
+		cout << string(1,'a' + i) << " ";
+		for (int j = 0; j < 10; j++){
+			if (attackBoard[i][j]){
+				if (shipBoard[i][j] != nullptr){
+					if (shipBoard[i][j]->isCovered()){
+						cout << "* ";
+					}
+					else{
+						cout << "+ ";
+					}
+				}
+				else {
+					cout << "x ";
+				}	
+			}
+			else {
+				if (shipBoard[i][j] != nullptr){
+					cout <<  "o ";
 				}
 				else {
 					cout << "o ";
@@ -116,6 +160,10 @@ int Board::attack(Position& pos){
 	else if (shipBoard[pos.x][pos.y] != nullptr){
 		attackBoard[pos.x][pos.y] = true; 
 		shipBoard[pos.x][pos.y]->numOfHits++;
+		this->numOfHits++;
+		if (this->numOfHits == this->numOfTotalHits){
+			return 2; 
+		}
 		return 1;
 	}
 	else {

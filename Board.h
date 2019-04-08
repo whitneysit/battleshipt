@@ -14,6 +14,7 @@ class Board {
 		Board();
 		~Board();
 		void printBoard(); 
+		void printHiddenBoard();
 		bool isTaken(Position& pos); //return true is pos is already been attacked
 		bool isHit(Position& pos); //return true if pos is already been hit
 		bool placeShip(Ship* ship, Position pos, bool isHorizontal); // return true if success else false
@@ -23,7 +24,9 @@ class Board {
 	private:
 		vector< vector<Ship*> > shipBoard; 
 		vector< vector<bool> > attackBoard; 
-		vector<Ship*> allShips;  
+		vector<Ship*> allShips;
+		int numOfHits; //number of the holes that were hit (has ship and attacked)  
+		int numOfTotalHits;
 };
 
 

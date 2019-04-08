@@ -32,6 +32,22 @@ void Game::printBoards(){
 	return; 
 }
 
+void Game::printBoards(int player){
+	if (player == 1){
+		cout << "Player 1:" << endl;
+		playerOneBoard->printBoard(); 
+		cout << "Player 2:" << endl;
+		playerTwoBoard->printHiddenBoard(); 
+	}
+	else{
+		cout << "Player 1:" << endl;
+		playerOneBoard->printHiddenBoard(); 
+		cout << "Player 2:" << endl;
+		playerTwoBoard->printBoard(); 
+	}
+	return; 
+}
+
 string Game::getInput(string output){
 	
 	cout << output << endl; 
@@ -51,9 +67,12 @@ void Game::placeShipsPrompt(){
 			shipName + " of " + to_string(shipSize) + " holes? (example: b4)";
 		string pos = getInput(prompt);
 		bool isSuccess = false;
-		if (isValidPosition(pos)){
-			while (isSuccess == false){
+		while (isSuccess == false){
+			if (isValidPosition(pos)){
 				string direction = getInput("Which direction do you want to place it? (h/v)");
+				while (direction != "h" && direction != "v"){
+					direction = getInput("Invalid Direction. Please Enter Again (h/v)");
+				}
 				if (pos.size() == 3){
 					isSuccess = this->playerOneBoard->placeShip(this->playerOneBoard->getShip(i), Position(pos), direction=="h");
 				}
@@ -64,13 +83,13 @@ void Game::placeShipsPrompt(){
 					pos = getInput("You cannot place your ship there. Please try again with another position.");
 				}
 			}
+			else {
+				while (!isValidPosition(pos)){
+					pos = getInput("invalid position, please enter a valid position");
+				}
+			}
 			cout << "Player 1:" << endl;
 			this->playerOneBoard->printBoard();
-		}
-		else {
-			while (!isValidPosition(pos)){
-				pos = getInput("invalid position, please enter a valid position");
-			}
 		}
 	}
 
@@ -87,6 +106,9 @@ void Game::placeShipsPrompt(){
 		while (isSuccess == false){
 			if (isValidPosition(pos)){
 				string direction = getInput("Which direction do you want to place it? (h/v)");
+				while (direction != "h" && direction != "v"){
+					direction = getInput("Invalid Direction. Please Enter Again (h/v)");
+				}
 				if (pos.size() == 3){
 					isSuccess = this->playerTwoBoard->placeShip(this->playerTwoBoard->getShip(i), Position(pos), direction=="h");
 				}
@@ -145,7 +167,9 @@ void Game::startAttacks(){
 	cout << "in start Attacks" << endl;
 	int counter = 0; 
 	while (true){
-		if (counter % 2){
+		
+		if (counter % 2 == 0){
+			printBoards(1);
 			string pos = "";
 			while(!isValidPosition(pos)){
 				pos = getInput("Player 1, it's your turn to attack. Please enter a position. (Example: b4)");
@@ -154,21 +178,28 @@ void Game::startAttacks(){
 				}
 			}
 			Position position(pos);
-			switch(this->playerOneBoard->attack(position)){
+			switch(this->playerTwoBoard->attack(position)){
 				case 0:
-					cout << "Missed!" << endl;
+					cout << "Missed!\n" << endl;
 					counter++;
 					break;
 				case 1:
-					cout << "Hit!" << endl;
+					cout << "Hit!\n" << endl;
 					counter++;
 					break;
 				case -1:
-					cout << "You already attacked this position. Your turn will repreat." << endl;
+					cout << "You already attacked this position. Your turn will repreat.\n" << endl;
+					break;
+				case 2:
+					cout << "Hit! You Win! Game Over\n" << endl;
+					return;
+					break;
+				default:
 					break;
 			}
 		}
 		else {
+			printBoards(2);
 			string pos = "";
 			while(!isValidPosition(pos)){
 				pos = getInput("Player 2, it's your turn to attack. Please enter a position. (Example: b4)");
@@ -177,22 +208,27 @@ void Game::startAttacks(){
 				}
 			}
 			Position position(pos);
-			switch(this->playerTwoBoard->attack(position)){
+			switch(this->playerOneBoard->attack(position)){
 				case 0:
-					cout << "Missed!" << endl;
+					cout << "Missed!\n" << endl;
 					counter++;
 					break;
 				case 1:
-					cout << "Hit!" << endl;
+					cout << "Hit!\n" << endl;
 					counter++;
 					break;
 				case -1:
-					cout << "You already attacked this position. Your turn will repreat." << endl;
+					cout << "You already attacked this position. Your turn will repreat.\n" << endl;
+					break;
+				case 2:
+					cout << "Hit! You Win! Game Over\n" << endl;
+					return; 
+					break;
+				default:
 					break;
 			}
 
 		}
-		printBoards();
 	}
 	return;
 }
