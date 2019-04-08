@@ -147,7 +147,7 @@ void Game::startAttacks(){
 	while (true){
 		if (counter % 2){
 			string pos = "";
-			while(isValidPosition(pos)){
+			while(!isValidPosition(pos)){
 				pos = getInput("Player 1, it's your turn to attack. Please enter a position. (Example: b4)");
 				if (!isValidPosition(pos)){
 					cout << "invalid position" << endl;
@@ -170,7 +170,7 @@ void Game::startAttacks(){
 		}
 		else {
 			string pos = "";
-			while(isValidPosition(pos)){
+			while(!isValidPosition(pos)){
 				pos = getInput("Player 2, it's your turn to attack. Please enter a position. (Example: b4)");
 				if (!isValidPosition(pos)){
 					cout << "invalid position" << endl;
