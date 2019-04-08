@@ -18,6 +18,28 @@ class Position {
 
 			this->y = y; 
 		}
+		Position(string pos){
+			char x = pos[0];
+			if (x >= 'A' && x <= 'Z'){
+				this->x = x - 'A'; 
+			}
+			else {
+				this->x = x - 'a';
+			}
+			if (pos.size() == 3){
+				string number = string(1, pos[1]) + string(1, pos[2]);
+				cout << "number: " << number << endl;
+
+				this->y = stoi(number) - 1;
+			}
+			else {
+				string number = string(1, pos[1]);
+				cout << "number: " << number << endl;
+
+
+				this->y = stoi(number) - 1;
+			}
+		}
 		~Position(){}
 		int x; 
 		int y; 

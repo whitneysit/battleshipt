@@ -55,12 +55,10 @@ void Game::placeShipsPrompt(){
 			while (isSuccess == false){
 				string direction = getInput("Which direction do you want to place it? (h/v)");
 				if (pos.size() == 3){
-					string number = string(1, pos[1]) + string(1, pos[2]);
-					isSuccess = this->playerOneBoard->placeShip(this->playerOneBoard->getShip(i), Position(pos[0], stoi(number) - 1), direction=="h");
+					isSuccess = this->playerOneBoard->placeShip(this->playerOneBoard->getShip(i), Position(pos), direction=="h");
 				}
 				else {
-					string number = string(1, pos[1]);
-					isSuccess = this->playerOneBoard->placeShip(this->playerOneBoard->getShip(i), Position(pos[0], stoi(number) - 1), direction=="h");
+					isSuccess = this->playerOneBoard->placeShip(this->playerOneBoard->getShip(i), Position(pos), direction=="h");
 				}
 				if (isSuccess == false){
 					pos = getInput("You cannot place your ship there. Please try again with another position.");
@@ -78,34 +76,34 @@ void Game::placeShipsPrompt(){
 
 	cout << "It's time to place your ships, Player 2!" << endl;
 	for (int i = 0; i < 5; i++){
+		cout << "iteration: " << i << endl;
 		string shipName = this->playerTwoBoard->getShip(i)->getName();
 		int shipSize = this->playerTwoBoard->getShip(i)->getSize();
 		string prompt = "Player 2, where would you like to place your " + 
 			shipName + " of " + to_string(shipSize) + " holes? (example: b4)";
 		string pos = getInput(prompt);
 		bool isSuccess = false;
-		if (isValidPosition(pos)){
-			while (isSuccess == false){
+		
+		while (isSuccess == false){
+			if (isValidPosition(pos)){
 				string direction = getInput("Which direction do you want to place it? (h/v)");
 				if (pos.size() == 3){
-					string number = string(1, pos[1]) + string(1, pos[2]);
-					isSuccess = this->playerTwoBoard->placeShip(this->playerTwoBoard->getShip(i), Position(pos[0], stoi(number) - 1), direction=="h");
+					isSuccess = this->playerTwoBoard->placeShip(this->playerTwoBoard->getShip(i), Position(pos), direction=="h");
 				}
 				else {
-					string number = string(1, pos[1]);
-					isSuccess = this->playerTwoBoard->placeShip(this->playerTwoBoard->getShip(i), Position(pos[0], stoi(number) - 1), direction=="h");
+					isSuccess = this->playerTwoBoard->placeShip(this->playerTwoBoard->getShip(i), Position(pos), direction=="h");
 				}
 				if (isSuccess == false){
 					pos = getInput("You cannot place your ship there. Please try again with another position.");
 				}
 			}
-			cout << "Player 1:" << endl;
-			this->playerTwoBoard->printBoard();
-		}
-		else {
-			while (!isValidPosition(pos)){
-				pos = getInput("invalid position, please enter a valid position");
+			else {
+				while (!isValidPosition(pos)){
+					pos = getInput("invalid position, please enter a valid position");
+				}
 			}
+			cout << "Player 2:" << endl;
+			this->playerTwoBoard->printBoard();
 		}
 	}
 }
@@ -144,5 +142,57 @@ bool Game::isValidPosition(string position){
 }
 
 void Game::startAttacks(){
- return;
+	cout << "in start Attacks" << endl;
+	int counter = 0; 
+	while (true){
+		if (counter % 2){
+			string pos = "";
+			while(isValidPosition(pos)){
+				pos = getInput("Player 1, it's your turn to attack. Please enter a position. (Example: b4)");
+				if (!isValidPosition(pos)){
+					cout << "invalid position" << endl;
+				}
+			}
+			Position position(pos);
+			switch(this->playerOneBoard->attack(position)){
+				case 0:
+					cout << "Missed!" << endl;
+					counter++;
+					break;
+				case 1:
+					cout << "Hit!" << endl;
+					counter++;
+					break;
+				case -1:
+					cout << "You already attacked this position. Your turn will repreat." << endl;
+					break;
+			}
+		}
+		else {
+			string pos = "";
+			while(isValidPosition(pos)){
+				pos = getInput("Player 2, it's your turn to attack. Please enter a position. (Example: b4)");
+				if (!isValidPosition(pos)){
+					cout << "invalid position" << endl;
+				}
+			}
+			Position position(pos);
+			switch(this->playerTwoBoard->attack(position)){
+				case 0:
+					cout << "Missed!" << endl;
+					counter++;
+					break;
+				case 1:
+					cout << "Hit!" << endl;
+					counter++;
+					break;
+				case -1:
+					cout << "You already attacked this position. Your turn will repreat." << endl;
+					break;
+			}
+
+		}
+		printBoards();
+	}
+	return;
 }

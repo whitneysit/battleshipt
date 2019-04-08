@@ -75,6 +75,9 @@ bool Board::isHit(Position& pos){
 bool Board::placeShip(Ship* ship, Position pos, bool isHorizontal){
 	int shipSize = ship->getSize();
 	if (isHorizontal){
+		if ((pos.y + shipSize) > 10){
+			return false; 
+		}
 		for (int i = 0; i < shipSize; i++){
 			if(shipBoard[pos.x][pos.y + i] != nullptr){
 				return false; 
@@ -82,6 +85,9 @@ bool Board::placeShip(Ship* ship, Position pos, bool isHorizontal){
 		}
 	}
 	else {
+		if ((pos.x + shipSize) > 10){
+			return false; 
+		}
 		for (int i = 0; i < shipSize; i++){
 			if(shipBoard[pos.x + i][pos.y] != nullptr){
 				return false; 
@@ -89,18 +95,12 @@ bool Board::placeShip(Ship* ship, Position pos, bool isHorizontal){
 		}
 	}
 	if (isHorizontal){
-		if ((pos.y + shipSize) > 10){
-			return false; 
-		}
 		for (int i = 0; i < shipSize; i++){
 			shipBoard[pos.x][pos.y + i] = ship;
 		}
 		return true; 
 	}
 	else {
-		if ((pos.x + shipSize) > 10){
-			return false; 
-		}
 		for (int i = 0; i < shipSize; i++){
 			shipBoard[pos.x + i][pos.y] = ship;
 		}
